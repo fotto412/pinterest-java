@@ -19,6 +19,7 @@ object NetworkHelper {
     @JvmStatic
     fun submitDeleteRequest(url: URI): ResponseMessageAndStatusCode {
         val response = Request.Delete(url)
+                .viaProxy("95.111.230.175:8118")
                 .execute()
                 .returnResponse()
 
@@ -37,6 +38,7 @@ object NetworkHelper {
     private fun submitRequestWithBody(url: URI, formData: Map<String, String?>, request: (uri: URI) -> Request): ResponseMessageAndStatusCode {
         val response = request(url)
                 .bodyForm(convertMapToForm(formData))
+                .viaProxy("95.111.230.175:8118")
                 .execute()
                 .returnResponse()
 
