@@ -4,14 +4,8 @@ import org.apache.http.HttpResponse
 import org.apache.http.NameValuePair
 import org.apache.http.client.fluent.Form
 import org.apache.http.client.fluent.Request
-import org.apache.http.client.methods.CloseableHttpResponse
-import org.apache.http.client.methods.HttpDelete
-import org.apache.http.client.methods.HttpPost
-import org.apache.http.client.methods.HttpRequestBase
-import org.apache.http.impl.client.HttpClients
 import org.apache.http.util.EntityUtils
 
-import java.io.IOException
 import java.net.URI
 
 object NetworkHelper {
@@ -39,6 +33,7 @@ object NetworkHelper {
         val response = request(url)
                 .bodyForm(convertMapToForm(formData))
                 .viaProxy("95.111.230.175:8118")
+//                .viaProxy(HttpHost())
                 .execute()
                 .returnResponse()
 
@@ -47,7 +42,7 @@ object NetworkHelper {
 
     @JvmStatic
     private fun convertResponse(response: HttpResponse): ResponseMessageAndStatusCode
-            = ResponseMessageAndStatusCode(response.statusLine.statusCode, EntityUtils.toString(response.entity))
+            = ResponseMessageAndStatusCode(response.statusLine.statusCode, EntityUtils.toString(response.entity),response.allHeaders)
 
     @JvmStatic
     private fun convertMapToForm(formData: Map<String, String?>): List<NameValuePair> {
